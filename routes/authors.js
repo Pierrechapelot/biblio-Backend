@@ -10,8 +10,6 @@ router.post("/", async (req, res) => {
   const author = new Author({
     lastName,
     firstName,
-    // birthDate,
-    // nationality,
   });
 
   try {
@@ -21,5 +19,7 @@ router.post("/", async (req, res) => {
     res.status(400).json({ message: err.message });
   }
 });
+
+
 
 module.exports = router;

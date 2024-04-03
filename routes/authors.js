@@ -62,4 +62,27 @@ router.put("/:id", async (req, res) => {
   }
 });
 
+// Route pour supprimer un auteur par ID
+router.delete("/:id", async (req, res) => {
+  try {
+    const author = await Author.findByIdAndDelete(req.params.id);
+    if (!author) {
+      return res.status(404).json({ message: "Auteur non trouvé" });
+    }
+    res.json({ message: "Auteur supprimé" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// Route pour récupérer les livres d'un auteur donné
+router.get('/:id/books', async (req, res) => {
+    try {
+        const books = await Book.find({ author: req.params.id });
+        res.json(books);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
 module.exports = router;

@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 
 const authorsSchema = mongoose.Schema({
-  lastName: String,
-  firstName: String,
+  lastName: { type: String, required: true },
+  firstName: { type: String, required: true },
   birthDate: Date,
   nationality: String
 });

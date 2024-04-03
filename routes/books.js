@@ -91,7 +91,7 @@ router.put('/:id', async (req, res) => {
     }
 });
 // Route pour supprimer un livre par ID
-router.delete('/books/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
     try {
         const book = await Book.findByIdAndDelete(req.params.id);
         if (!book) return res.status(404).json({ message: "Book not found" });
@@ -102,7 +102,7 @@ router.delete('/books/:id', async (req, res) => {
 });
 
 // Route pour Recherche de livres par titre, auteur, ou genre
-router.get('/books/search', async (req, res) => {
+router.get('/search', async (req, res) => {
     const query = {};
     if (req.query.title) query.title = { $regex: req.query.title, $options: 'i' };
     if (req.query.genre) query.genre = { $regex: req.query.genre, $options: 'i' };

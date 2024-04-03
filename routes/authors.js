@@ -6,12 +6,12 @@ const Author = require("../models/authors");
 
 // Créer un nouvel auteur :
 router.post("/", async (req, res) => {
-  const { lastName, firstName, birthDate, nationality } = req.body;
+  const { lastName, firstName} = req.body;
   const author = new Author({
     lastName,
     firstName,
-    birthDate,
-    nationality,
+    // birthDate,
+    // nationality,
   });
 
   try {

@@ -12,6 +12,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var booksRouter = require('./routes/books');
 var authorsRouter = require('./routes/authors');
+var loansRouter = require('./routes/loans');
 
 var app = express();
 
@@ -28,5 +29,6 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/books', booksRouter);
 app.use('/authors', authorsRouter);
+app.use('loans', loansRouter );
 
 module.exports = app;

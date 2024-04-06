@@ -29,6 +29,6 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/books', booksRouter);
 app.use('/authors', authorsRouter);
-app.use('loans', loansRouter );
+app.use('/loans', loansRouter);
 
 module.exports = app;

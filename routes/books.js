@@ -140,47 +140,4 @@ router.delete("/:id", async (req, res) => {
 });
 
 
-// router.get("/search", async (req, res) => {
-//   try {
-//     const query = {};
-//     if (req.query.query) {
-//       const search = new RegExp(req.query.query, 'i'); // Création d'une expression régulière insensible à la casse
-
-//       // Appliquer le filtre aux champs titre et genre
-//       query.$or = [
-//         { title: search },
-//         { genre: search },
-//       ];
-//     }
-
-//     const books = await Book.find(query).populate("author");
-//     res.json(books);
-//   } catch (err) {
-//     console.error(err); // Imprimez l'erreur pour le débogage
-//     res.status(500).json({ message: "Erreur interne du serveur" });
-//   }
-// });
-
-// router.get("/search", async (req, res) => {
-//   try {
-//     let books = await Book.find(); // Commencez par récupérer tous les livres
-//     res.json(books);
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ message: "Erreur interne du serveur" });
-//   }
-// });
-// router.get("/search", async (req, res) => {
-//   const query = {};
-//   if (req.query.title) query.title = { $regex: req.query.title, $options: "i" };
-//   if (req.query.genre) query.genre = { $regex: req.query.genre, $options: "i" };
-//   if (req.query.author) query["author"] = req.query.author; // Pour une recherche simple basée sur l'ObjectId de l'auteur
-
-//   try {
-//     const books = await Book.find(query).populate("author");
-//     res.json(books);
-//   } catch (err) {
-//     res.status(500).json({ message: err.message });
-//   }
-// });
 module.exports = router;

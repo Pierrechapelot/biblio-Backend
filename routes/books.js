@@ -49,8 +49,8 @@ router.post("/", async (req, res) => {
     const response = await fetch(url);
     const data = await response.json();
     console.log(data);
-    const description = data.items?.[0]?.volumeInfo?.description || "Description non disponible.";
-
+    const description =
+      data.items?.[0]?.volumeInfo?.description || "Description non disponible.";
 
     // Créer le livre si ce n'est pas un doublon
     const book = new Book({
@@ -78,16 +78,30 @@ router.get("/", (req, res) => {
     .catch((err) => res.status(500).json({ message: err.message }));
 });
 
-// Route pour récupérer un livre par son ID
-router.get("/:id", async (req, res) => {
+
+
+// Route pour rechercher des livres par titre ou genre
+router.get("/search", async (req, res) => {
   try {
-    const book = await Book.findById(req.params.id).populate("author");
-    if (!book) return res.status(404).json({ message: "Book not found" });
-    res.json(book);
+    let query = {};
+    const { title, genre } = req.query;
+
+    // Ajoute des filtres à la requête si 'title' ou 'genre' sont spécifiés
+    if (title) {
+      query.title = { $regex: new RegExp(title, 'i') }; // Recherche insensible à la casse
+    }
+    if (genre) {
+      query.genre = { $regex: new RegExp(genre, 'i') }; // Recherche insensible à la casse
+    }
+
+    const books = await Book.find(query).populate("author");
+    res.json(books);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    console.error(err);
+    res.status(500).json({ message: "Erreur interne du serveur" });
   }
 });
+
 
 // Route pour Mettre à jour un livre par ID
 router.put("/:id", async (req, res) => {
@@ -112,6 +126,8 @@ router.put("/:id", async (req, res) => {
     res.status(400).json({ message: err.message });
   }
 });
+
+
 // Route pour supprimer un livre par ID
 router.delete("/:id", async (req, res) => {
   try {
@@ -123,18 +139,48 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-// Route pour Recherche de livres par titre, auteur, ou genre
-router.get("/search", async (req, res) => {
-  const query = {};
-  if (req.query.title) query.title = { $regex: req.query.title, $options: "i" };
-  if (req.query.genre) query.genre = { $regex: req.query.genre, $options: "i" };
-  if (req.query.author) query["author"] = req.query.author; // Pour une recherche simple basée sur l'ObjectId de l'auteur
 
-  try {
-    const books = await Book.find(query).populate("author");
-    res.json(books);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
+// router.get("/search", async (req, res) => {
+//   try {
+//     const query = {};
+//     if (req.query.query) {
+//       const search = new RegExp(req.query.query, 'i'); // Création d'une expression régulière insensible à la casse
+
+//       // Appliquer le filtre aux champs titre et genre
+//       query.$or = [
+//         { title: search },
+//         { genre: search },
+//       ];
+//     }
+
+//     const books = await Book.find(query).populate("author");
+//     res.json(books);
+//   } catch (err) {
+//     console.error(err); // Imprimez l'erreur pour le débogage
+//     res.status(500).json({ message: "Erreur interne du serveur" });
+//   }
+// });
+
+// router.get("/search", async (req, res) => {
+//   try {
+//     let books = await Book.find(); // Commencez par récupérer tous les livres
+//     res.json(books);
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ message: "Erreur interne du serveur" });
+//   }
+// });
+// router.get("/search", async (req, res) => {
+//   const query = {};
+//   if (req.query.title) query.title = { $regex: req.query.title, $options: "i" };
+//   if (req.query.genre) query.genre = { $regex: req.query.genre, $options: "i" };
+//   if (req.query.author) query["author"] = req.query.author; // Pour une recherche simple basée sur l'ObjectId de l'auteur
+
+//   try {
+//     const books = await Book.find(query).populate("author");
+//     res.json(books);
+//   } catch (err) {
+//     res.status(500).json({ message: err.message });
+//   }
+// });
 module.exports = router;

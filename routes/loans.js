@@ -1,5 +1,7 @@
 var express = require("express");
 var router = express.Router();
+const Loan = require('../models/loans')
+
 
 //Route pour créer un nouvel emprunt
 router.post("/", async (req, res) => {
@@ -102,6 +104,7 @@ router.get("/", async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+
 
 
 module.exports = router;

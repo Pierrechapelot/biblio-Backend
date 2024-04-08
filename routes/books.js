@@ -86,12 +86,12 @@ router.get("/search", async (req, res) => {
     let query = {};
     const { title, genre } = req.query;
 
-    // Ajoute des filtres à la requête si 'title' ou 'genre' sont spécifiés
+
     if (title) {
-      query.title = { $regex: new RegExp(title, 'i') }; // Recherche insensible à la casse
+      query.title = { $regex: new RegExp(title, 'i') }; 
     }
     if (genre) {
-      query.genre = { $regex: new RegExp(genre, 'i') }; // Recherche insensible à la casse
+      query.genre = { $regex: new RegExp(genre, 'i') }; 
     }
 
     const books = await Book.find(query).populate("author");

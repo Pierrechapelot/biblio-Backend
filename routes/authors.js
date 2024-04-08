@@ -1,7 +1,6 @@
 var express = require("express");
 var router = express.Router();
 
-// const fetch = require("node-fetch");
 const Author = require("../models/authors");
 const Book = require("../models/books");
 

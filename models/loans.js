@@ -7,7 +7,6 @@ const loansSchema = mongoose.Schema({
   dueDate: Date,
   returnDate: Date,
   status: String
-//   "loaned", "returned", "late"
 });
 
 const Loan = mongoose.model("loans", loansSchema);
